@@ -1,10 +1,54 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+
+import React from "react";
+//import Image from "next/image";
+import styles from "./page.module.css";
+import { Box, Tabs, Tab } from "@mui/material";
+import CustomTabPanel from "./_components/CustomTabPanel";
+import TaxSalesTabPanel from "./_components/TaxSalesTabPanel";
 
 export default function Home() {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const a11yProps = (index: number) => {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  };
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 6 }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
+          <Tab label="Sales Taxes" {...a11yProps(0)} />
+          <Tab label="Conference Track Management" {...a11yProps(1)} />
+          <Tab label="Merchant's Guide To The Galaxy" {...a11yProps(2)} />
+        </Tabs>
+      </Box>
+      <>
+        <TaxSalesTabPanel value={value} index={0}></TaxSalesTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          Conference Track Management
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          Merchant's Guide To The Galaxy
+        </CustomTabPanel>
+      </>
+    </main>
+  );
+}
+
+{
+  /* <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>app/page.tsx</code>
@@ -89,7 +133,5 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
-      </div>
-    </main>
-  )
+      </div> */
 }
