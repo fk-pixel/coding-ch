@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "productName": "Book",
+    "taxable": false,
+    "price": 12.49,
+    "salesType": "export"
+  },
+  {
+    "id": 2,
+    "productName": "Music CD",
+    "taxable": true,
+    "price": 14.99,
+    "salesType": "export"
+  },
+  {
+    "id": 3,
+    "productName": "Chocolate bar",
+    "taxable": false,
+    "price": 0.85,
+    "salesType": "export"
+  },
+  {
+    "id": 4,
+    "productName": "Box of chocolates",
+    "taxable": false,
+    "price": 10.0,
+    "salesType": "import"
+  },
+  {
+    "id": 5,
+    "productName": "Bottle of perfume",
+    "taxable": true,
+    "price": 47.5,
+    "salesType": "import"
+  },
+  {
+    "id": 6,
+    "productName": "Bottle of perfume",
+    "taxable": true,
+    "price": 27.99,
+    "salesType": "import"
+  },
+  {
+    "id": 7,
+    "productName": "Packet of headache",
+    "taxable": false,
+    "price": 9.75,
+    "salesType": "export"
+  },
+  {
+    "id": 8,
+    "productName": "Box of chocolates",
+    "taxable": false,
+    "price": 11.25,
+    "salesType": "import"
+  }
+]
