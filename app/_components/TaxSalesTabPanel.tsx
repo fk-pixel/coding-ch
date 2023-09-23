@@ -99,6 +99,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
     }
   };
 
+  console.log(sale);
   // function onChangeBasket(baskets) {
   //   return baskets;
   // }
@@ -200,7 +201,11 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
                 justifyContent: "flex-end",
               }}
             >
-              <Button variant="contained" onClick={() => handleAdd()}>
+              <Button
+                variant="contained"
+                disabled={!sale.productName || sale.piece === 0}
+                onClick={() => handleAdd()}
+              >
                 Add To Cart
               </Button>
             </Box>
