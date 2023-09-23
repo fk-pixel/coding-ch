@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "eventName": "Writing Fast Tests Against Enterprise Rails",
+    "duration": 60
+  },
+  {
+    "id": 2,
+    "eventName": "Overdoing it in Python",
+    "duration": 45
+  },
+  {
+    "id": 3,
+    "eventName": "Lua for the Masses",
+    "duration": 30
+  },
+  {
+    "id": 4,
+    "eventName": "Ruby Errors from Mismatched Gem Versions",
+    "duration": 45
+  },
+  {
+    "id": 5,
+    "eventName": "Common Ruby Errors",
+    "duration": 45
+  },
+  {
+    "id": 6,
+    "eventName": "Rails for Python Developers lightning",
+    "duration": 30
+  },
+  {
+    "id": 7,
+    "eventName": "Communicating Over Distance",
+    "duration": 60
+  },
+  {
+    "id": 8,
+    "eventName": "Accounting-Driven Development",
+    "duration": 45
+  },
+  {
+    "id": 9,
+    "eventName": "Woah",
+    "duration": 30
+  },
+  {
+    "id": 10,
+    "eventName": "Sit Down and Write",
+    "duration": 30
+  },
+  {
+    "id": 11,
+    "eventName": "Pair Programming vs Noise",
+    "duration": 30
+  },
+  {
+    "id": 12,
+    "eventName": "Rails Magic",
+    "duration": 60
+  },
+  {
+    "id": 13,
+    "eventName": "Ruby on Rails: Why We Should Move On",
+    "duration": 60
+  },
+  {
+    "id": 14,
+    "eventName": "Clojure Ate Scala (on my project)",
+    "duration": 45
+  },
+  {
+    "id": 15,
+    "eventName": "Programming in the Boondocks of Seattle",
+    "duration": 30
+  },
+  {
+    "id": 16,
+    "eventName": "Ruby vs. Clojure for Back-End Development",
+    "duration": 30
+  },
+  {
+    "id": 17,
+    "eventName": "Ruby on Rails Legacy App Maintenance",
+    "duration": 60
+  },
+  {
+    "id": 18,
+    "eventName": "A World Without HackerNews",
+    "duration": 30
+  },
+  {
+    "id": 19,
+    "eventName": "User Interface CSS in Rails Apps",
+    "duration": 30
+  },
+  {
+    "id": 20,
+    "eventName": "Lunch",
+    "duration": 60
+  },
+  {
+    "id": 21,
+    "eventName": "Networking Event",
+    "duration": 60
+  }
+]
