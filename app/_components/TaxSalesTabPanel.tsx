@@ -27,7 +27,7 @@ export interface Product {
   salesType: string;
 }
 
-export interface Item extends Product {
+export interface Sale extends Product {
   piece: number;
 }
 
@@ -46,11 +46,9 @@ const PRODUCT_OPTIONS = productData.map((x) => ({
 export default function TaxSalesTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
-  //const basket: Map<string, Item> = new Map<string, Item>();
-  // const baskets: Map<string, Basket> = new Map<string, Basket>();
   const [addToOther, setAddToOther] = React.useState<boolean>(false);
-  const [baskets, setBaskets] = React.useState<Item[][]>([]);
-  const [item, setItem] = React.useState<Item>({
+  const [baskets, setBaskets] = React.useState<Sale[][]>([]);
+  const [sale, setSale] = React.useState<Sale>({
     id: 0,
     productName: "",
     taxable: false,
@@ -67,39 +65,25 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
   //     }));
   //   }
   // };
-  React.useEffect(() => {
-    if (baskets.length > 0) {
-      baskets;
-    }
-  }, []);
 
-  // setShoppingBasket()
-  // setMyState(...myState, {...[e.target.name]: e.target.value})
-
-  //   () =>
-  // ({
-  //   ...myState,
-  //   [e.target.name]: e.target.value
-  // })
+  // React.useEffect(() => {
+  //   if (baskets.length > 0) {
+  //     baskets;
+  //   }
+  // }, []);
 
   // const onChangeB = (val) => {
   //   setBasket;
   // };
 
   const handleAdd = () => {
-    // if (baskets.length < 1) {
-    //   setBaskets(Array(1).fill([]));
-    // }
-
     if (addToOther) {
-      setBaskets((prev) => [...prev, [item]]);
+      setBaskets((prev) => [...prev, [sale]]);
     }
 
     if (!addToOther) {
-      // setBaskets({ ...baskets, ...item });
-
       if (baskets.length === 0) {
-        setBaskets(() => [[item]]);
+        setBaskets(() => [[sale]]);
       } else {
         const currentBasketIndex = baskets.length - 1;
 
@@ -108,9 +92,9 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
         ] as unknown as Array<object>;
 
         if (currentBasket?.length > 0) {
-          currentBasket.push(item);
+          currentBasket.push(sale);
         }
-        // onChangeBasket();
+        //onChangeBasket();
       }
     }
   };
@@ -119,26 +103,12 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
   //   return baskets;
   // }
 
-  // const salesTaxes = baskets.flatMap((basket) =>
-  //   basket.map((x) => {
-  //     x.taxable && x.productSalesType === "import"
-  //       ? x.piece * ((x.price * 10) / 100 + (x.price * 5) / 100)
-  //       : x.taxable !== false && x.productSalesType === "import"
-  //       ? x.piece * ((x.price * 5) / 100)
-  //       : 0;
-  //   })
-  // );
-
-  // const total = shoppingBasket.reduce((acc, val) => {
-  //   acc.piece * acc.price + val.piece * val.price;
-  // });
-
   const handleChange = (value: AutocompleteOption) => {
     const product = productData.find((x) => x.id === value.id);
 
     if (!product) throw Error;
 
-    setItem((prev) => ({
+    setSale((prev) => ({
       ...prev,
       id: product.id,
       productName: product.productName,
@@ -147,10 +117,6 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
       salesType: product.salesType,
     }));
   };
-
-  // React.useEffect(() => {
-  //   onChangeBasket(baskets);
-  // }, []);
 
   return (
     <div
@@ -216,8 +182,8 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
                 key={4}
                 name="piece"
                 onChange={(e) => {
-                  setItem({
-                    ...item,
+                  setSale({
+                    ...sale,
                     piece: Number(e.target.value),
                   });
                 }}
@@ -248,9 +214,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
                 key={index}
                 index={index}
                 basket={basket}
-                salesTaxes={0}
-                total={0}
-                // onChangeBasket={onChangeBasket(basket)}
+                // onChangeBasket={onChangeBasket}
               />
             ))}
         </Box>

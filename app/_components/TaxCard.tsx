@@ -1,18 +1,17 @@
 import React from "react";
 import { format } from "date-fns";
 import { Box, Typography } from "@mui/material";
-import { Item, Product } from "./TaxSalesTabPanel";
+import { Sale } from "./TaxSalesTabPanel";
+import { getCalculatedPrice } from "../_utils/CardUtils";
 
 export interface TaxCardProps {
   index: number;
-  basket: Item[];
-  salesTaxes: number;
-  total: number;
-  onChangeBasket: () => Item[][];
+  basket: Sale[];
+  // onChangeBasket: () => Item[][];
 }
 
 export default function TaxCard(props: TaxCardProps): JSX.Element {
-  const { basket, salesTaxes, total, index, onChangeBasket } = props;
+  const { basket, index } = props;
 
   const date = format(new Date(), "dd/MM/yyyy");
 
@@ -20,13 +19,18 @@ export default function TaxCard(props: TaxCardProps): JSX.Element {
   //   onChangeBasket();
   // }, []);
 
-  //const salesTaxes: number = 0;
+  const salesTaxes: number = basket
+    .map((x) => getCalculatedPrice(x.salesType, x.taxable, x.price).saleTax)
+    .reduce((acc, val) => acc + val, 0);
 
-  //const total: number = 0;
+  const total: number = basket
+    .map(
+      (x) => getCalculatedPrice(x.salesType, x.taxable, x.price).roundedPrice
+    )
+    .reduce((acc, val) => acc + val, 0);
 
   return (
     /* Main Card */
-
     <Box
       sx={{
         marginTop: 5,
@@ -63,9 +67,13 @@ export default function TaxCard(props: TaxCardProps): JSX.Element {
         <Box sx={{ display: "block", padding: 1, fontSize: 12 }}>
           <ul>
             {basket.length > 0 &&
-              basket.map((x: Item) => (
+              basket.map((x: Sale) => (
                 <li>
-                  {x.piece} {x.productName} ({(x.piece * x.price).toFixed(2)} $)
+                  {x.piece} {x.productName} (
+                  {x.piece *
+                    getCalculatedPrice(x.salesType, x.taxable, x.price)
+                      .roundedPrice}{" "}
+                  $)
                 </li>
               ))}
           </ul>
@@ -92,13 +100,15 @@ export default function TaxCard(props: TaxCardProps): JSX.Element {
           }}
         >
           <Typography sx={{ fontWeight: 550 }}>Sales Taxes</Typography>
-          <Typography sx={{ fontWeight: 550 }}>{salesTaxes}</Typography>
+          <Typography sx={{ fontWeight: 550 }}>
+            {salesTaxes.toFixed(2)} $
+          </Typography>
         </Box>
 
         {/* TOTAL */}
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography sx={{ fontWeight: 550 }}>TOTAL</Typography>
-          <Typography sx={{ fontWeight: 550 }}>{total}</Typography>
+          <Typography sx={{ fontWeight: 550 }}>{total.toFixed(2)} $</Typography>
         </Box>
       </Box>
     </Box>
