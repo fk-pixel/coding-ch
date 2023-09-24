@@ -13,11 +13,11 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import productData from "../data/products.json";
-import TaxCard from "./TaxCard";
-import { getNamedPrice, getNamedSalesType } from "../_utils/DataUtils";
+import productData from "../../data/products.json";
+import TaxCard from "../Card/TaxCard";
+import { getNamedPrice, getNamedSalesType } from "../../_utils/DataUtil";
 import Error from "next/error";
-import { AutocompleteOption } from "../_common/Types";
+import { AutocompleteOption } from "../../_common/Types";
 
 export interface Product {
   id: number;
@@ -57,25 +57,6 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
     piece: 0,
   });
 
-  // const handleChange = (e: { target: { name: any; value: any } }) => {
-  //   if (typeof e.target.value !== "object") {
-  //     setProduct((prev) => ({
-  //       ...prev,
-  //       [e.target.name]: e.target.value,
-  //     }));
-  //   }
-  // };
-
-  // React.useEffect(() => {
-  //   if (baskets.length > 0) {
-  //     baskets;
-  //   }
-  // }, []);
-
-  // const onChangeB = (val) => {
-  //   setBasket;
-  // };
-
   const handleAdd = () => {
     if (addToOther) {
       setBaskets((prev) => [...prev, [sale]]);
@@ -87,36 +68,30 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
       } else {
         const currentBasketIndex = baskets.length - 1;
 
-        const currentBasket = baskets[
-          currentBasketIndex
-        ] as unknown as Array<object>;
+        const currentBasket = baskets[currentBasketIndex];
 
-        if (currentBasket?.length > 0) {
-          currentBasket.push(sale);
-        }
-        //onChangeBasket();
+        currentBasket.push(sale);
+
+        setBaskets((prev) => [...prev]);
       }
     }
   };
-
-  console.log(sale);
-  // function onChangeBasket(baskets) {
-  //   return baskets;
-  // }
 
   const handleChange = (value: AutocompleteOption) => {
     const product = productData.find((x) => x.id === value.id);
 
     if (!product) throw Error;
 
-    setSale((prev) => ({
-      ...prev,
-      id: product.id,
-      productName: product.productName,
-      taxable: product.taxable,
-      price: product.price,
-      salesType: product.salesType,
-    }));
+    if (value) {
+      setSale((prev) => ({
+        ...prev,
+        id: product.id,
+        productName: product.productName,
+        taxable: product.taxable,
+        price: product.price,
+        salesType: product.salesType,
+      }));
+    }
   };
 
   return (
@@ -137,14 +112,15 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
                   Add To Cart Type
                 </FormLabel>
                 <RadioGroup
+                  key={"addToCartType"}
+                  name="addToCartType"
                   onChange={() => setAddToOther(!addToOther)}
                   row
                   defaultValue="current"
-                  name="addToCartType"
                 >
                   <Tooltip title="Add a product to the new shop basket">
                     <FormControlLabel
-                      key={1}
+                      key={"addOther"}
                       value="addOther"
                       control={<Radio />}
                       label="Add Other"
@@ -152,7 +128,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
                   </Tooltip>
                   <Tooltip title="Add a product to the current shop basket">
                     <FormControlLabel
-                      key={2}
+                      key={"current"}
                       value="current"
                       control={<Radio />}
                       label="Current"
@@ -165,10 +141,13 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
             <Box sx={{ display: "flex" }}>
               <Autocomplete
                 id="productName"
-                key={3}
+                key={"productName"}
                 fullWidth
                 options={PRODUCT_OPTIONS}
+                disableClearable
                 onChange={(_, v) => (v !== null ? handleChange(v) : null)}
+                getOptionLabel={(o) => o.label || ""}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -180,7 +159,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
               />
               <TextField
                 id="piece"
-                key={4}
+                key={"piece"}
                 name="piece"
                 onChange={(e) => {
                   setSale({
@@ -202,6 +181,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
               }}
             >
               <Button
+                key={"addToCart"}
                 variant="contained"
                 disabled={!sale.productName || sale.piece === 0}
                 onClick={() => handleAdd()}
@@ -216,10 +196,9 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
           {baskets.length > 0 &&
             baskets.flatMap((basket, index) => (
               <TaxCard
-                key={index}
+                key={`${index}-tax-card`}
                 index={index}
                 basket={basket}
-                // onChangeBasket={onChangeBasket}
               />
             ))}
         </Box>

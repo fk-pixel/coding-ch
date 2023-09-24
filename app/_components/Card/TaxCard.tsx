@@ -1,13 +1,12 @@
 import React from "react";
 import { format } from "date-fns";
 import { Box, Typography } from "@mui/material";
-import { Sale } from "./TaxSalesTabPanel";
-import { getCalculatedPrice } from "../_utils/CardUtils";
+import { Sale } from "../TabPanel/TaxSalesTabPanel";
+import { getCalculatedPrice } from "../../_utils/CardUtil";
 
 export interface TaxCardProps {
   index: number;
   basket: Sale[];
-  // onChangeBasket: () => Item[][];
 }
 
 export default function TaxCard(props: TaxCardProps): JSX.Element {
@@ -15,17 +14,15 @@ export default function TaxCard(props: TaxCardProps): JSX.Element {
 
   const date = format(new Date(), "dd/MM/yyyy");
 
-  // React.useEffect(() => {
-  //   onChangeBasket();
-  // }, []);
-
   const salesTaxes: number = basket
     .map((x) => getCalculatedPrice(x.salesType, x.taxable, x.price).saleTax)
     .reduce((acc, val) => acc + val, 0);
 
   const total: number = basket
     .map(
-      (x) => getCalculatedPrice(x.salesType, x.taxable, x.price).roundedPrice
+      (x) =>
+        getCalculatedPrice(x.salesType, x.taxable, x.price).roundedPrice *
+        x.piece
     )
     .reduce((acc, val) => acc + val, 0);
 
@@ -65,10 +62,10 @@ export default function TaxCard(props: TaxCardProps): JSX.Element {
 
         {/* Products */}
         <Box sx={{ display: "block", padding: 1, fontSize: 12 }}>
-          <ul>
+          <ul key={`${index + 1}-basket-list`}>
             {basket.length > 0 &&
-              basket.map((x: Sale) => (
-                <li>
+              basket.map((x: Sale, i: number) => (
+                <li key={i}>
                   {x.piece} {x.productName} (
                   {x.piece *
                     getCalculatedPrice(x.salesType, x.taxable, x.price)
