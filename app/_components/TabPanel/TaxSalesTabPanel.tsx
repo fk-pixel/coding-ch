@@ -1,4 +1,5 @@
 import * as React from "react";
+import Error from "next/error";
 import {
   Box,
   TextField,
@@ -13,11 +14,10 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import productData from "../../data/products.json";
-import TaxCard from "../Card/TaxCard";
-import { getNamedPrice, getNamedSalesType } from "../../_utils/DataUtil";
-import Error from "next/error";
 import { AutocompleteOption } from "../../_common/Types";
+import { getNamedPrice, getNamedSalesType } from "../../_utils/DataUtil";
+import TaxCard from "../Card/TaxCard";
+import productData from "../../data/products.json";
 
 export interface Product {
   id: number;
@@ -27,8 +27,9 @@ export interface Product {
   salesType: string;
 }
 
-export interface Sale extends Product {
+export interface Shopping extends Product {
   piece: number;
+  date: Date;
 }
 
 interface TabPanelProps {
@@ -47,30 +48,31 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   const [addToOther, setAddToOther] = React.useState<boolean>(false);
-  const [baskets, setBaskets] = React.useState<Sale[][]>([]);
-  const [sale, setSale] = React.useState<Sale>({
+  const [baskets, setBaskets] = React.useState<Shopping[][]>([]);
+  const [shopping, setShopping] = React.useState<Shopping>({
     id: 0,
     productName: "",
     taxable: false,
     salesType: "",
     price: 0,
     piece: 0,
+    date: new Date(),
   });
 
   const handleAdd = () => {
     if (addToOther) {
-      setBaskets((prev) => [...prev, [sale]]);
+      setBaskets((prev) => [...prev, [{ ...shopping, date: new Date() }]]);
     }
 
     if (!addToOther) {
       if (baskets.length === 0) {
-        setBaskets(() => [[sale]]);
+        setBaskets(() => [[{ ...shopping, date: new Date() }]]);
       } else {
         const currentBasketIndex = baskets.length - 1;
 
         const currentBasket = baskets[currentBasketIndex];
 
-        currentBasket.push(sale);
+        currentBasket.push({ ...shopping, date: new Date() });
 
         setBaskets((prev) => [...prev]);
       }
@@ -83,16 +85,19 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
     if (!product) throw Error;
 
     if (value) {
-      setSale((prev) => ({
+      setShopping((prev) => ({
         ...prev,
         id: product.id,
         productName: product.productName,
         taxable: product.taxable,
         price: product.price,
         salesType: product.salesType,
+        date: new Date(),
       }));
     }
   };
+
+  const error = shopping.piece < 0;
 
   return (
     <div
@@ -162,11 +167,13 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
                 key={"piece"}
                 name="piece"
                 onChange={(e) => {
-                  setSale({
-                    ...sale,
+                  setShopping({
+                    ...shopping,
                     piece: Number(e.target.value),
                   });
                 }}
+                error={error}
+                helperText={error ? "Piece cannot be less than zero" : ""}
                 type="number"
                 placeholder="Piece"
               />
@@ -183,7 +190,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
               <Button
                 key={"addToCart"}
                 variant="contained"
-                disabled={!sale.productName || sale.piece === 0}
+                disabled={!shopping.productName || shopping.piece === 0}
                 onClick={() => handleAdd()}
               >
                 Add To Cart
@@ -194,7 +201,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
           <Divider />
 
           {baskets.length > 0 &&
-            baskets.flatMap((basket, index) => (
+            baskets.map((basket, index) => (
               <TaxCard
                 key={`${index}-tax-card`}
                 index={index}

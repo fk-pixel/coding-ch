@@ -1,18 +1,67 @@
 import React from "react";
-import { format } from "date-fns";
 import { Box, Typography } from "@mui/material";
-import { Sale } from "../TabPanel/TaxSalesTabPanel";
-import { getCalculatedPrice } from "../../_utils/CardUtil";
+
+import { Shopping } from "../TabPanel/TaxSalesTabPanel";
+import { formatDate, getCalculatedPrice } from "../../_utils/CardUtil";
 
 export interface TaxCardProps {
   index: number;
-  basket: Sale[];
+  basket: Shopping[];
 }
+
+const TaxCardStyle = {
+  mainBox: {
+    marginTop: 5,
+    width: "100%",
+    borderRadius: 4,
+    boxShadow: "0 4px 20px 0 rgba(0, 0, 0,.14)",
+  },
+  cardContent: {
+    display: "flex",
+    paddingBottom: 6,
+  },
+  shoppingBasket: {
+    marginRight: 4,
+    padding: 1,
+    borderRight: "1px solid #dddd",
+    borderRadius: 3,
+  },
+  shoppingBasketText: {
+    fontSize: 28,
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "floralwhite",
+  },
+  products: {
+    display: "block",
+    padding: 1,
+    fontSize: 12,
+  },
+  cardFooter: {
+    backgroundColor: "coral",
+    color: "white",
+    display: "block",
+    padding: 1,
+    borderTop: "1px solid #dddd",
+    borderBottomRightRadius: 4,
+    borderBottomLeftRadius: 4,
+  },
+  cardFooterBox: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  cardFooterText: {
+    fontWeight: 550,
+  },
+  cardFooterDate: {
+    fontSize: 12,
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+};
 
 export default function TaxCard(props: TaxCardProps): JSX.Element {
   const { basket, index } = props;
-
-  const date = format(new Date(), "dd/MM/yyyy");
 
   const salesTaxes: number = basket
     .map((x) => getCalculatedPrice(x.salesType, x.taxable, x.price).saleTax)
@@ -28,43 +77,22 @@ export default function TaxCard(props: TaxCardProps): JSX.Element {
 
   return (
     /* Main Card */
-    <Box
-      sx={{
-        marginTop: 5,
-        width: "100%",
-        borderRadius: 4,
-        boxShadow: "0 4px 20px 0 rgba(0, 0, 0,.14)",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          paddingBottom: 6,
-        }}
-      >
-        {/* ShoppingBasket */}
-        <Box
-          display={"block"}
-          sx={{
-            marginRight: 4,
-            padding: 1,
-            borderRight: "1px solid #dddd",
-            alignContent: "center",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography>Shopping basket {index + 1}</Typography>
-          <Typography sx={{ fontSize: 14, fontWeight: 50, color: "gray" }}>
-            created at: {date}
+    <Box sx={TaxCardStyle.mainBox}>
+      {/* Card Content */}
+      <Box sx={TaxCardStyle.cardContent}>
+        {/* Shopping Basket */}
+        <Box display={"block"} sx={TaxCardStyle.shoppingBasket}>
+          <Typography>Shopping Basket </Typography>
+          <Typography sx={TaxCardStyle.shoppingBasketText}>
+            {" "}
+            {index + 1}
           </Typography>
         </Box>
-
         {/* Products */}
-        <Box sx={{ display: "block", padding: 1, fontSize: 12 }}>
+        <Box sx={TaxCardStyle.products}>
           <ul key={`${index + 1}-basket-list`}>
             {basket.length > 0 &&
-              basket.map((x: Sale, i: number) => (
+              basket.map((x: Shopping, i: number) => (
                 <li key={i}>
                   {x.piece} {x.productName} (
                   {x.piece *
@@ -76,37 +104,32 @@ export default function TaxCard(props: TaxCardProps): JSX.Element {
           </ul>
         </Box>
       </Box>
-
       {/* Card Footer */}
-      <Box
-        sx={{
-          backgroundColor: "coral",
-          color: "white",
-          display: "block",
-          padding: 1,
-          borderTop: "1px solid #dddd",
-          borderBottomRightRadius: 4,
-          borderBottomLeftRadius: 4,
-        }}
-      >
+      <Box sx={TaxCardStyle.cardFooter}>
         {/* Sales Taxes */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography sx={{ fontWeight: 550 }}>Sales Taxes</Typography>
-          <Typography sx={{ fontWeight: 550 }}>
+        <Box sx={TaxCardStyle.cardFooterBox}>
+          <Typography sx={TaxCardStyle.cardFooterText}>Sales Taxes</Typography>
+          <Typography sx={TaxCardStyle.cardFooterText}>
             {salesTaxes.toFixed(2)} $
           </Typography>
         </Box>
-
         {/* TOTAL */}
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography sx={{ fontWeight: 550 }}>TOTAL</Typography>
-          <Typography sx={{ fontWeight: 550 }}>{total.toFixed(2)} $</Typography>
+        <Box sx={TaxCardStyle.cardFooterBox}>
+          <Typography sx={TaxCardStyle.cardFooterText}>TOTAL</Typography>
+          <Typography sx={TaxCardStyle.cardFooterText}>
+            {total.toFixed(2)} $
+          </Typography>
         </Box>
+        {basket.map((x: Shopping, i: number) => (
+          <Typography key={i} sx={TaxCardStyle.cardFooterDate}>
+            {i === 0
+              ? "created at: "
+              : i === basket.length - 1
+              ? "updated at: "
+              : ""}
+            {i === 0 || i === basket.length - 1 ? formatDate(x.date) : ""}
+          </Typography>
+        ))}
       </Box>
     </Box>
   );
