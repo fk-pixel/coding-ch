@@ -16,6 +16,8 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+Or you can vist live demo page: [https://coding-qfloy31h2-fk-pixel.vercel.app/](coding-ch.vercel.app/)
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
@@ -29,8 +31,40 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Project Process
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Problem: Sales Taxes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Displaying taxable products as a post-sale total output by sale type
+
+### Tech Stack
+
+Adopted with Next.js TypeScript for modern framework usage
+
+### Data Structure
+
+The user interface was designed at the very beginning of the problem.
+Displaying on a single page was preferred as an easily understandable format for output, such as which inputs can be used for what purposes.
+For the data structure, first a product data was created as json. (app > data > product.json)
+Options similar to the desired inputs are configured here according to their own ids.
+Product and sales quantity were also combined with piece entity as number.
+I wanted a purchase to be possible in different quantities.
+A Sale interface was created for this.
+Each of these sales would eventually be added to a basket, so there would have to be sales and baskets in all of them.
+Thus, the outputs could be distributed to different baskets.
+However, I thought it would be useful to have a feature like add to cart type here.
+That's why I created add to cart type.
+This feature is shown to the user with a radio button at the beginning of the first component.
+By default, the current option is active.
+However, if the user wants to add a product to another cart, they should only select the add to new cart option from here.
+In this way, baskets can also be listed on outputs.
+
+### Outputs
+
+Each add action is forwarded to a cart with updated date data.
+If the number of sales products is 1, this means that a basket will only be represented by the date it was created (created at: '').
+However, when multiple products are added, the latest date data is also shown as the update date in the shopping card footer (updated at: '').
+All baskets are represented in a card (TaxCard).
+Each comes unique with its own number.
+Helper functions have been designed for Sales Taxes and Date manipulations.
+All helper functions are defined in the utils folder (app > \_utils).
