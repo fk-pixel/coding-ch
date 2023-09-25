@@ -190,7 +190,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
               <Button
                 key={"addToCart"}
                 variant="contained"
-                disabled={!shopping.productName || shopping.piece === 0}
+                disabled={!shopping.productName || shopping.piece < 1}
                 onClick={() => handleAdd()}
               >
                 Add To Cart
