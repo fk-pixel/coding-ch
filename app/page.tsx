@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-//import Image from "next/image";
 import styles from "./page.module.css";
 import { Box, Tabs, Tab } from "@mui/material";
-import CustomTabPanel from "./_components/CustomTabPanel";
-import TaxSalesTabPanel from "./_components/TaxSalesTabPanel";
+
+import TaxSalesTabPanel from "./_components/TabPanel/TaxSalesTabPanel";
 
 export default function Home() {
   const [value, setValue] = React.useState(0);
@@ -30,108 +29,19 @@ export default function Home() {
           aria-label="basic tabs example"
         >
           <Tab label="Sales Taxes" {...a11yProps(0)} />
-          <Tab label="Conference Track Management" {...a11yProps(1)} />
-          <Tab label="Merchant's Guide To The Galaxy" {...a11yProps(2)} />
+          {/* <Tab label="Conference Track Management" {...a11yProps(1)} /> */}
+          {/* <Tab label="Merchant's Guide To The Galaxy" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <>
         <TaxSalesTabPanel value={value} index={0}></TaxSalesTabPanel>
-        <CustomTabPanel value={value} index={1}>
+        {/* <ConferenceManagementTabPanel value={value} index={1}>
           Conference Track Management
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
+        </ConferenceManagementTabPanel> */}
+        {/* <CustomTabPanel value={value} index={2}>
           Merchant's Guide To The Galaxy
-        </CustomTabPanel>
+        </CustomTabPanel> */}
       </>
     </main>
   );
-}
-
-{
-  /* <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div> */
 }
