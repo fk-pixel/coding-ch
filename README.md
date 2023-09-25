@@ -16,7 +16,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Or you can vist live demo page: [https://coding-qfloy31h2-fk-pixel.vercel.app/](coding-ch.vercel.app/)
+Or you can vist live demo page: [coding-ch.vercel.app/](https://coding-qfloy31h2-fk-pixel.vercel.app/)
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
