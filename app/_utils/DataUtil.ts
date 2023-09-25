@@ -1,30 +1,19 @@
+/**
+ * It integrates a sales type into the new data as 'imported' if it is 'import'.
+ *
+ * @param   salesType  The sales type according to export or import as string
+ * @returns A string.
+ */
 export function getNamedSalesType(salesType: string): string {
   return salesType === "import" ? "imported " : "";
 }
 
+/**
+ * It manipulates the sales price with 'at' in options
+ *
+ * @param   price  The sales price as string.
+ * @returns A string.
+ */
 export function getNamedPrice(price: number): string {
   return ` at ${price}`;
-}
-
-export function getEventSubData(eventData: string): {
-  eventName: string;
-  duration: string;
-} {
-  const digitRegex = /[0-9]/;
-
-  const foundDigit = eventData.match(digitRegex);
-
-  const indexDigit = eventData.indexOf(foundDigit);
-
-  const eventName = eventData.slice(0, indexDigit).trim();
-
-  const stringDuration = eventData.slice(indexDigit);
-
-  const foundMin = stringDuration.match("min");
-
-  const indexMin = stringDuration.indexOf(foundMin);
-
-  const duration = stringDuration.slice(0, indexMin);
-
-  return { eventName, duration };
 }
