@@ -38,11 +38,35 @@ export function getCalculatedPrice(
 
   const roundedPrice = Number(roundedNewPrice);
 
-  const saleTax = Number(roundedNewPrice) - price;
+  const saleTax = roundedPrice - price;
 
   return { roundedPrice, saleTax };
 }
 
 function setIntegerArgument(price: number) {
-  return Math.ceil(price * 20 - 0.05) / 20;
+  const factor = Math.pow(10, decimalPlaces(price));
+
+  const remainder = ((price * factor) % (0.05 * factor)) / factor;
+
+  const result =
+    remainder < 0.026
+      ? Math.ceil(price * 20) / 20
+      : Math.ceil(price * 100) / 100;
+
+  return result;
+}
+
+function decimalPlaces(n: number) {
+  const s = "" + +n;
+
+  const match = /(?:\.(\d+))?(?:[eE]([+\-]?\d+))?$/.exec(s);
+
+  if (!match) {
+    return 0;
+  }
+
+  return Math.max(
+    0,
+    (match[1] == "0" ? 0 : (match[1] || "").length) - (Number(match[2]) || 0)
+  );
 }

@@ -43,13 +43,20 @@
   },
   {
     "id": 7,
+    "productName": "Bottle of perfume",
+    "taxable": true,
+    "price": 18.99,
+    "salesType": "export"
+  },
+  {
+    "id": 8,
     "productName": "Packet of headache",
     "taxable": false,
     "price": 9.75,
     "salesType": "export"
   },
   {
-    "id": 8,
+    "id": 9,
     "productName": "Box of chocolates",
     "taxable": false,
     "price": 11.25,
