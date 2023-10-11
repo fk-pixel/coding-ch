@@ -62,6 +62,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
   const handleAdd = () => {
     if (addToOther) {
       setBaskets((prev) => [...prev, [{ ...shopping, date: new Date() }]]);
+      setAddToOther(false);
     }
 
     if (!addToOther) {
@@ -122,6 +123,7 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
                   onChange={() => setAddToOther(!addToOther)}
                   row
                   defaultValue="current"
+                  value={addToOther ? "addOther" : "current"}
                 >
                   <Tooltip title="Add a product to the new shop basket">
                     <FormControlLabel
