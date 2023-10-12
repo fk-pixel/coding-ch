@@ -7,7 +7,7 @@ import { format } from "date-fns";
  * @returns A string.
  */
 export function formatDate(date: Date): string {
-  const formatedDate = format(date, "dd/MM/yyyy,  HH:mm");
+  const formatedDate = format(date, "dd/MM/yyyy, HH:mm");
 
   return formatedDate;
 }
@@ -25,8 +25,8 @@ export function getCalculatedPrice(
   salesType: string,
   taxable: boolean,
   price: number
-): { roundedPrice: number; saleTax: number } {
-  const newPrice = taxable
+): { newPrice: number; saleTax: number } {
+  const calculatedPrice = taxable
     ? salesType === "import"
       ? setIntegerArgument(price + (price * 10) / 100 + (price * 5) / 100)
       : setIntegerArgument(price + (price * 10) / 100)
@@ -34,13 +34,13 @@ export function getCalculatedPrice(
     ? setIntegerArgument(price + (price * 5) / 100)
     : price;
 
-  const roundedNewPrice = newPrice.toFixed(2);
+  const roundedPrice = calculatedPrice.toFixed(2);
+  const newPrice = Number(roundedPrice);
 
-  const roundedPrice = Number(roundedNewPrice);
+  const roundedSaleTax = (newPrice - price).toFixed(2);
+  const saleTax = Number(roundedSaleTax);
 
-  const saleTax = roundedPrice - price;
-
-  return { roundedPrice, saleTax };
+  return { newPrice, saleTax };
 }
 
 function setIntegerArgument(price: number) {

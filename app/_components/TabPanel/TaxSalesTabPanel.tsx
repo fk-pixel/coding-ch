@@ -62,6 +62,8 @@ export default function TaxSalesTabPanel(props: TabPanelProps) {
   const handleAdd = () => {
     if (addToOther) {
       setBaskets((prev) => [...prev, [{ ...shopping, date: new Date() }]]);
+
+      // Add to another cart only works the first time you request it. Default must be 'current'
       setAddToOther(false);
     }
 

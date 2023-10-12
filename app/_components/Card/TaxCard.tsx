@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 
 import { Shopping } from "../TabPanel/TaxSalesTabPanel";
 import { formatDate, getCalculatedPrice } from "../../_utils/CardUtil";
+import { getNamedSalesType } from "@/app/_utils/DataUtil";
 
 export interface TaxCardProps {
   index: number;
@@ -70,8 +71,7 @@ export default function TaxCard(props: TaxCardProps): JSX.Element {
   const total: number = basket
     .map(
       (x) =>
-        getCalculatedPrice(x.salesType, x.taxable, x.price).roundedPrice *
-        x.piece
+        getCalculatedPrice(x.salesType, x.taxable, x.price).newPrice * x.piece
     )
     .reduce((acc, val) => acc + val, 0);
 
@@ -94,10 +94,10 @@ export default function TaxCard(props: TaxCardProps): JSX.Element {
             {basket.length > 0 &&
               basket.map((x: Shopping, i: number) => (
                 <li key={i}>
-                  {x.piece} {x.productName} (
+                  {x.piece} {getNamedSalesType(x.salesType)} {x.productName} (
                   {x.piece *
                     getCalculatedPrice(x.salesType, x.taxable, x.price)
-                      .roundedPrice}{" "}
+                      .newPrice}{" "}
                   $)
                 </li>
               ))}
