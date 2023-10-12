@@ -4,6 +4,7 @@ import userEvent, {
 } from "@testing-library/user-event";
 
 import TaxSalesTabPanel from "@/app/_components/TabPanel/TaxSalesTabPanel";
+import { getNamedPrice, getNamedSalesType } from "@/app/_utils/DataUtil";
 
 describe("TaxSalesTabPanel", () => {
   describe("Render", () => {
@@ -97,6 +98,16 @@ describe("TaxSalesTabPanel", () => {
     render(<TaxSalesTabPanel value={0} index={0} />); // ARRANGE
     const myElem = screen.getByText(/Add To Cart Type/s); // ACT
     expect(myElem).toBeInTheDocument(); // ASSERT
+  });
+
+  describe("Functions in DataUtil", () => {
+    it("Something wrong at getNamedSalesType function", () => {
+      expect(getNamedSalesType("import")).toBe("imported ");
+    });
+
+    it("Something wrong at getNamedPrice function", () => {
+      expect(getNamedPrice(34)).toBe(" at 34");
+    });
   });
 
   test("add to cart action is not clickable when shop data has pointer-events: none", () => {

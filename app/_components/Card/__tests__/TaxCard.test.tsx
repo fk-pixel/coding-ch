@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 
+import { formatDate, getCalculatedPrice } from "@/app/_utils/CardUtil";
 import TaxCard from "@/app/_components/Card/TaxCard";
 
 const mockBasket = [
@@ -14,8 +14,6 @@ const mockBasket = [
     piece: 1,
   },
 ];
-
-const mockSetBasket = jest.fn();
 
 describe("TaxCard", () => {
   describe("Render", () => {
@@ -35,6 +33,21 @@ describe("TaxCard", () => {
       const li = screen.getByRole("listitem");
 
       expect(li).toBeInTheDocument(); // ASSERT
+    });
+  });
+
+  describe("Functions in CardUtil", () => {
+    it("price should have transformed by calculate with 0,05 rounded and by return sales taxes", () => {
+      expect(getCalculatedPrice("import", true, 47.5)).toStrictEqual({
+        newPrice: 54.65,
+        saleTax: 7.15,
+      });
+    });
+
+    it("formated date must be separated according to day, month, year and hours", () => {
+      expect(formatDate(new Date("Thu Oct 12 2023 14:57:34"))).toBe(
+        "12/10/2023, 14:57"
+      );
     });
   });
 
